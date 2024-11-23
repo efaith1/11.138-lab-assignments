@@ -16,7 +16,7 @@ map.on('load', () => {
   map.addSource('mongoLayer', {
     type: 'geojson',
     // data: 'http://localhost:3000/api/geojson' // Replace with your API endpoint
-    data:'https://roots-of-resilience-6d9d8039c4c6.herokuapp.com/api/geojson'
+    data:'https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/geojson'
   });
 
   // Add a layer to display MongoDB data

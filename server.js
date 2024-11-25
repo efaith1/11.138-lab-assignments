@@ -86,7 +86,7 @@ const geoSchema = new mongoose.Schema({
  
    });
 
-   app.get('/home', (req, res) => {
+   app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
  
    });

@@ -78,7 +78,23 @@ const geoSchema = new mongoose.Schema({
   
   app.get('/contribute', (req, res) => {
    res.sendFile(__dirname + '/contribute.html');
+
   });
+
+  app.get('/gallery', (req, res) => {
+    res.sendFile(__dirname + '/gallery.html');
+ 
+   });
+
+   app.get('/home', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+ 
+   });
+
+   app.get('/map', (req, res) => {
+    res.sendFile(__dirname + '/map.html');
+ 
+   });
   
   app.post('/submit', async (req, res) => {
    const formData = new FormData({

@@ -72,67 +72,84 @@
         </div>
       </div>
     </nav>
-    <!-- Page Header-->
-    <!-- <header class="masthead">
-      <div class="container position-relative px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-          <div class="col-md-10 col-lg-8 col-xl-7">
-            <div class="page-heading">
-              <h1>About Me</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header> -->
-    <!-- Main Content-->
+
     <main class="main-body">
-      <h1 style="text-align: center; padding: 20px">Places Gallery</h1>
-      <div class="gallery-container" id="gallery-container">
-        <!-- Gallery items will be injected here -->
+      <div id="details-container">
+        <h1 id="detail-title"></h1>
+        <img id="detail-image" src="" alt="Detail Image" />
+        <p id="detail-description"></p>
       </div>
 
       <script>
-        // Fetch the data from the API
-        fetch(
-          "https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/geojson"
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            const galleryContainer =
-              document.getElementById("gallery-container");
-            const features = data.features || []; // Extract features from GeoJSON
-            console.log(features);
-            // Loop through features and create HTML for each item
-            features.forEach((feature) => {
-              const { properties } = feature;
-              console.log(feature);
-              const name = properties.Name || "Unknown Name";
-              const imageUrl =
-                properties.ImageUrl ||
-                "https://via.placeholder.com/200x150?text=No+Image";
-              const location = properties.Location || "Unknown Location";
+        // Sample data for demonstration
+        const places = {
+          place1: {
+            title: "Place 1",
+            image: "image1.jpg",
+            description: "This is the description for Place 1.",
+          },
+          place2: {
+            title: "Place 2",
+            image: "image2.jpg",
+            description: "This is the description for Place 2.",
+          },
+        };
 
-              console.log(feature._id);
-              // Create gallery item
-              const galleryItem = document.createElement("div");
-              galleryItem.className = "gallery-item";
-              galleryItem.innerHTML = `
-                    <a href="infoPage.html?id=${feature._id}" class="gallery-link">
-                    <img src="${imageUrl}" alt="${name}">
-                    <h3>${name}</h3>
-                    <p>${location}</p>
-                    </a>
-                    `;
+        // Step 1: Extract the ID from the URL
+        const params = new URLSearchParams(window.location.search);
+        const placeId = params.get("id");
 
-              // Append the gallery item to the container
-              galleryContainer.appendChild(galleryItem);
+        if (placeId) {
+          // Fetch the data from the API
+          fetch(
+            "https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/geojson"
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("data", data)
+              const features = data.features || []; // Extract features from GeoJSON
+
+              console.log(features)
+
+              // Find the feature with the matching ID
+              const feature = features.find(
+                (feature) =>
+                  feature._id === placeId
+              );
+
+              if (feature) {
+                const { properties } = feature;
+                const name = properties.Name || "Unknown Name";
+                const location = properties.Location || "Unknown Location";
+                const imageUrl =
+                  properties.Image || "path/to/default-image.jpg";
+                const description =
+                  properties.Description || "No description available.";
+
+                // Update the page content dynamically
+                document.getElementById("detail-title").textContent = name;
+                document.getElementById("detail-image").src = imageUrl;
+                document.getElementById("detail-description").textContent =
+                  description;
+                document.getElementById("detail-location").textContent =
+                  location;
+              } else {
+                // If no matching feature is found
+                document.getElementById("detail-title").textContent =
+                  "Place not found";
+                document.getElementById("detail-image").style.display = "none";
+                document.getElementById("detail-description").textContent =
+                  "No information available for this place.";
+              }
             });
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error);
-          });
+        } else {
+          // If no ID is provided
+          document.getElementById("detail-title").textContent =
+            "Invalid place";
+        }
       </script>
     </main>
+
     <!-- Footer-->
     <footer class="border-top">
       <div class="container px-4 px-lg-5">

@@ -10,13 +10,6 @@ const bodyParser = require('body-parser');
 app.use(cors());
 app.use(express.static('css'));
 
-const mime = require('mime');
-app.get('/scripts.js', (req, res) => {
-  res.setHeader('Content-Type', mime.getType('js'));
-  res.sendFile('scripts.js', { root: __dirname });
-});
-app.use(express.static('css'));
-
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://dbUser:dbUserPassword@cluster0.li7yc.mongodb.net/ChurchesData?retryWrites=true&w=majority');
 
@@ -84,22 +77,21 @@ const geoSchema = new mongoose.Schema({
   
   const FormData = mongoose.model('FormData', formSchema);
   
-  app.get('/contribute', (req, res) => {
+  app.get(['/contribute', '/contribute.html'], (req, res) => {
    res.sendFile(__dirname + '/contribute.html');
-
   });
 
-  app.get('/gallery', (req, res) => {
+  app.get(['/gallery', '/gallery.html'], (req, res) => {
     res.sendFile(__dirname + '/gallery.html');
  
    });
 
-   app.get('/', (req, res) => {
+   app.get(['/', '/index.html'], (req, res) => {
     res.sendFile(__dirname + '/index.html');
  
    });
 
-   app.get('/map', (req, res) => {
+   app.get(['/map', '/map.html'], (req, res) => {
     res.sendFile(__dirname + '/map.html');
  
    });

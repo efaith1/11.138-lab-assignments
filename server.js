@@ -10,6 +10,13 @@ const bodyParser = require('body-parser');
 app.use(cors());
 app.use(express.static('css'));
 
+const mime = require('mime');
+app.get('/scripts.js', (req, res) => {
+  res.setHeader('Content-Type', mime.getType('js'));
+  res.sendFile('scripts.js', { root: __dirname });
+});
+app.use(express.static('css'));
+
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://dbUser:dbUserPassword@cluster0.li7yc.mongodb.net/ChurchesData?retryWrites=true&w=majority');
 

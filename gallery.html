@@ -100,9 +100,9 @@
           .then((data) => {
             const galleryContainer =
               document.getElementById("gallery-container");
-            const features = data.features || []; // Extract features from GeoJSON
+            const features = data.features || []; // get features from GeoJSON
             console.log(features);
-            // Loop through features and create HTML for each item
+            // go through features and create HTML for each item
             features.forEach((feature) => {
               const { properties } = feature;
               console.log(feature);

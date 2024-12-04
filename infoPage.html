@@ -77,7 +77,14 @@
       <div id="details-container">
         <h1 id="detail-title"></h1>
         <img id="detail-image" src="" alt="Detail Image" />
-        <p id="detail-description"></p>
+        <div id="detail-general-info-container">
+          <p>Location: <span id="detail-location"></span></p>
+          <p>Founded: <span id="detail-founded"></span></p>
+          <p>Founder: <span id="detail-founder"></span></p>
+          <p>Pastor: <span id="detail-pastor"></span></p>
+          <p>Congregation: <span id="detail-congregation"></span></p>
+          <p>Website: <a id="detail-website" href="#" target="_blank"></a></p>
+        </div>
       </div>
 
       <script>
@@ -106,33 +113,43 @@
           )
             .then((response) => response.json())
             .then((data) => {
-              console.log("data", data)
+              console.log("data", data);
               const features = data.features || []; // Extract features from GeoJSON
 
-              console.log(features)
+              console.log(features);
 
               // Find the feature with the matching ID
               const feature = features.find(
-                (feature) =>
-                  feature._id === placeId
+                (feature) => feature._id === placeId
               );
 
               if (feature) {
                 const { properties } = feature;
+                console.log("properties", properties);
+
                 const name = properties.Name || "Unknown Name";
                 const location = properties.Location || "Unknown Location";
-                const imageUrl =
-                  properties.Image || "path/to/default-image.jpg";
-                const description =
-                  properties.Description || "No description available.";
+                const founded = properties.Founded || "Unknown Year";
+                const founder = properties.Founder || "Unknown Founder";
+                const pastor = properties.Pastor || "Unknown Pastor";
+                const congregation =
+                  properties.Congregation || "Unknown Congregation";
+                const website = properties.Website || "#";
 
                 // Update the page content dynamically
                 document.getElementById("detail-title").textContent = name;
-                document.getElementById("detail-image").src = imageUrl;
-                document.getElementById("detail-description").textContent =
-                  description;
+                // document.getElementById("detail-image").src = imageUrl;
+                // document.getElementById("detail-description").textContent =
+                //   description;
                 document.getElementById("detail-location").textContent =
                   location;
+                document.getElementById("detail-founded").textContent = founded;
+                document.getElementById("detail-founder").textContent = founder;
+                document.getElementById("detail-pastor").textContent = pastor;
+                document.getElementById("detail-congregation").textContent =
+                  congregation;
+                document.getElementById("detail-website").href = website;
+                document.getElementById("detail-website").textContent = website;
               } else {
                 // If no matching feature is found
                 document.getElementById("detail-title").textContent =
@@ -144,8 +161,7 @@
             });
         } else {
           // If no ID is provided
-          document.getElementById("detail-title").textContent =
-            "Invalid place";
+          document.getElementById("detail-title").textContent = "Invalid place";
         }
       </script>
     </main>

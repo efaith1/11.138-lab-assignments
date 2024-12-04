@@ -50,8 +50,8 @@ map.on("load", () => {
       .setLngLat(coordinates)
       .setHTML(
         `
-            <h3>${properties.Name || "Unknown Location"}</h3>
-            <p>${properties.Location || "No additional information"}</p>
+            <h3>${properties.Name || "Unknown Name"}</h3>
+            <p>${properties.Location || "Unknown Location"}</p>
         `
       )
       .addTo(map);

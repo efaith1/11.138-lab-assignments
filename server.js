@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 
 app.use(cors());
+app.use(express.static('css'));
 
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://dbUser:dbUserPassword@cluster0.li7yc.mongodb.net/ChurchesData?retryWrites=true&w=majority');
@@ -26,7 +27,7 @@ const geoSchema = new mongoose.Schema({
       type: { type: String, enum: ['Point', 'LineString', 'Polygon'], required: true },
       coordinates: { type: [Number], required: true }
     }
-  }, { collection: 'Churches' }); // My files come from the Stations folder, so enhance navigation to help find them
+  }, { collection: 'Churches' }); // My files come from the Churches folder, so enhance navigation to help find them
   
   const GeoModel = mongoose.model('GeoCollection', geoSchema);
   
@@ -76,9 +77,29 @@ const geoSchema = new mongoose.Schema({
   
   const FormData = mongoose.model('FormData', formSchema);
   
-  app.get('/contribute', (req, res) => {
+  app.get(['/contribute', '/contribute.html'], (req, res) => {
    res.sendFile(__dirname + '/contribute.html');
   });
+
+  app.get(['/gallery', '/gallery.html'], (req, res) => {
+    res.sendFile(__dirname + '/gallery.html');
+ 
+   });
+
+   app.get(['/infoPage', '/infoPage.html'], (req, res) => {
+    res.sendFile(__dirname + '/infoPage.html');
+ 
+   });
+
+   app.get(['/', '/index.html'], (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+ 
+   });
+
+   app.get(['/map', '/map.html'], (req, res) => {
+    res.sendFile(__dirname + '/map.html');
+ 
+   });
   
   app.post('/submit', async (req, res) => {
    const formData = new FormData({

@@ -86,6 +86,11 @@ const geoSchema = new mongoose.Schema({
  
    });
 
+   app.get(['/infoPage', '/infoPage.html'], (req, res) => {
+    res.sendFile(__dirname + '/infoPage.html');
+ 
+   });
+
    app.get(['/', '/index.html'], (req, res) => {
     res.sendFile(__dirname + '/index.html');
  

@@ -11501,21 +11501,27 @@
         </div>
       </div>
 
-      <script>
-        // Sample data for demonstration
-        const places = {
-          place1: {
-            title: "Place 1",
-            image: "image1.jpg",
-            description: "This is the description for Place 1.",
-          },
-          place2: {
-            title: "Place 2",
-            image: "image2.jpg",
-            description: "This is the description for Place 2.",
-          },
-        };
+      <!-- The three tabs -->
+      <div id="tab-container">
+        <button class="tab-button" onclick="activateTab('activism')">
+          Activism
+        </button>
+        <button class="tab-button" onclick="activateTab('network')">
+          Network
+        </button>
+        <button class="tab-button" onclick="activateTab('stories')">
+          Community Stories
+        </button>
+      </div>
+      
 
+      <!-- Content base on tabs -->
+      <div id="content-display">
+        <h2 id="detail-content-title">Activism Moments</h2>
+        <div id="detail-content-body"></div>
+      </div>
+
+      <script>
         // Step 1: Extract the ID from the URL
         const params = new URLSearchParams(window.location.search);
         const placeId = params.get("id");
@@ -11536,46 +11542,84 @@
               const feature = features.find(
                 (feature) => feature._id === placeId
               );
-
               if (feature) {
-                const { properties } = feature;
-                console.log("properties", properties);
-
-                const name = properties.Name || "Unknown Name";
-                const location = properties.Location || "Unknown Location";
-                const founded = properties.Founded || "Unknown Year";
-                const founder = properties.Founder || "Unknown Founder";
-                const pastor = properties.Pastor || "Unknown Pastor";
-                const congregation =
-                  properties.Congregation || "Unknown Congregation";
-                const website = properties.Website || "#";
-
-                // Update the page content dynamically
-                document.getElementById("detail-title").textContent = name;
-                // document.getElementById("detail-image").src = imageUrl;
-                // document.getElementById("detail-description").textContent =
-                //   description;
-                document.getElementById("detail-location").textContent =
-                  location;
-                document.getElementById("detail-founded").textContent = founded;
-                document.getElementById("detail-founder").textContent = founder;
-                document.getElementById("detail-pastor").textContent = pastor;
-                document.getElementById("detail-congregation").textContent =
-                  congregation;
-                document.getElementById("detail-website").href = website;
-                document.getElementById("detail-website").textContent = website;
-              } else {
-                // If no matching feature is found
-                document.getElementById("detail-title").textContent =
-                  "Place not found";
-                document.getElementById("detail-image").style.display = "none";
-                document.getElementById("detail-description").textContent =
-                  "No information available for this place.";
+                currentProperties = feature.properties; 
+                // Initialize with General Info and Activism Content by default
+                displayGeneralInfo(feature.properties);
+                showTabContent(feature.properties, "activism");
               }
             });
         } else {
           // If no ID is provided
           document.getElementById("detail-title").textContent = "Invalid place";
+        }
+
+        function activateTab(type) {
+          showTabContent(currentProperties, type); // Use the stored properties
+        }
+        // Function to display the general info
+        function displayGeneralInfo(properties) {
+          console.log("properties", properties);
+          const name = properties.Name || "Unknown Name";
+          const location = properties.Location || "Unknown Location";
+          const founded = properties.Founded || "Unknown Year";
+          const founder = properties.Founder || "Unknown Founder";
+          const pastor = properties.Pastor || "Unknown Pastor";
+          const congregation =
+            properties.Congregation || "Unknown Congregation";
+          const website = properties.Website || "#";
+
+          document.getElementById("detail-title").textContent = name;
+          document.getElementById("detail-location").textContent =
+            "Location: " + location;
+          document.getElementById("detail-founded").textContent =
+            "Founded: " + founded;
+          document.getElementById("detail-founder").textContent =
+            "Founder: " + founder;
+          document.getElementById("detail-pastor").textContent =
+            "Pastor: " + pastor;
+          document.getElementById("detail-congregation").textContent =
+            "Congregation: " + congregation;
+          document.getElementById("detail-website").textContent =
+            "Website: " + website;
+        }
+
+        function showTabContent(properties, type) {
+          console.log("properties", properties);
+
+          const contentBody = document.getElementById("detail-content-body");
+          const contentTitle = document.getElementById("detail-content-title");
+          let data;
+
+          if (type === "activism") {
+            contentTitle.textContent = "Activism Moments";
+            console.log(properties["Activism moments"]);
+            data = properties["Activism moments"].map(
+              (item) => `<p>Date: ${item.Date || "Unknown"}</p>
+                     <p>Information: ${item.Information || "N/A"}</p>
+                     <p>Sources: <a href="${
+                       item.Sources || "#"
+                     }" target="_blank">${item.Sources || "N/A"}</a></p>`
+            );
+          } else if (type === "network") {
+            contentTitle.textContent = "Network";
+            data = properties.Network.map(
+              (item) => `<p>Date: ${item.Date}</p>
+                     <p>Title: ${item.Title}</p>
+                     <p>Description: ${item.Description}</p>
+                     <p>Sources: <a href="${item.Sources}" target="_blank">${item.Sources}</a></p>`
+            );
+          } else if (type === "stories") {
+            contentTitle.textContent = "Community Stories";
+            data = properties["Personal stories"].map(
+              (item) => `<p>Name: ${item.Name || "Anonymous"}</p>
+                     <p>Story: ${item.Story || "No story available"}</p>`
+            );
+          }
+
+          contentBody.innerHTML = data.length
+            ? data.join("<hr>")
+            : "<p>No data available.</p>";
         }
       </script>
     </main>

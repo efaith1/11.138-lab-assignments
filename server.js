@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 
 app.use(cors());
-app.use(express.static("css"));
+app.use("/css", express.static("css"));
 
 // Connect to MongoDB
 mongoose.connect(

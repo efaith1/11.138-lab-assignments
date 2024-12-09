@@ -11,6 +11,8 @@
     <title>Map page</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <link href="/css/styles.css" rel="stylesheet" />
+    <link href="css/gallery.css" rel="stylesheet" />
+    <link href="css/layout.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
@@ -62,9 +64,6 @@
         </div>
       </div>
     </nav>
-    <!-- Page Header-->
-
-    <!-- Post Content-->
     <div id="map"></div>
     <script>
       // ADD YOUR MAPBOX ACCESS TOKEN
@@ -75,7 +74,7 @@
       const map = new mapboxgl.Map({
         container: "map", // container ID for the map object (this points to the HTML element)
         style: "mapbox://styles/mapbox/streets-v11",
-        center: [-73.9442, 40.6482], // starting position [lng, lat] (google brooklyn)
+        center: [-73.9442, 40.69], // starting position [lng, lat] (google brooklyn)
         zoom: 12, // starting zoom (adjust it as you wish)
       });
 

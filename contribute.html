@@ -11156,98 +11156,7 @@
         color: #6c757d;
       }
 
-      #mainNav {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1030;
-        border-bottom: 1px solid #dee2e6;
-        background-color: #fff;
-        font-family:
-          "Open Sans",
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          "Helvetica Neue",
-          Arial,
-          sans-serif,
-          "Apple Color Emoji",
-          "Segoe UI Emoji",
-          "Segoe UI Symbol",
-          "Noto Color Emoji";
-      }
-      #mainNav .navbar-brand {
-        font-weight: 800;
-      }
-      #mainNav .navbar-toggler {
-        font-size: 0.75rem;
-        font-weight: 800;
-        padding: 0.75rem;
-        text-transform: uppercase;
-      }
-      #mainNav .navbar-nav > li.nav-item > a.nav-link {
-        font-size: 0.75rem;
-        font-weight: 800;
-        letter-spacing: 0.0625em;
-        text-transform: uppercase;
-      }
-      @media (min-width: 992px) {
-        #mainNav {
-          border-bottom: 1px solid transparent;
-          background: transparent;
-        }
-        #mainNav .navbar-brand {
-          color: #fff;
-        }
-        #mainNav .navbar-brand:focus,
-        #mainNav .navbar-brand:hover {
-          color: rgba(255, 255, 255, 0.8);
-        }
-        #mainNav .navbar-nav > li.nav-item > a.nav-link {
-          color: #fff;
-        }
-        #mainNav .navbar-nav > li.nav-item > a.nav-link:focus,
-        #mainNav .navbar-nav > li.nav-item > a.nav-link:hover {
-          color: rgba(255, 255, 255, 0.8);
-        }
-      }
-      @media (min-width: 992px) {
-        #mainNav {
-          transition: background-color 0.2s;
-          /* Force Hardware Acceleration in WebKit */
-          transform: translate3d(0, 0, 0);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-        }
-        #mainNav.is-fixed {
-          /* when the user scrolls down, we hide the header right above the viewport */
-          position: fixed;
-          top: -83px;
-          transition: transform 0.2s;
-          border-bottom: 1px solid white;
-          background-color: rgba(255, 255, 255, 0.9);
-        }
-        #mainNav.is-fixed .navbar-brand {
-          color: #212529;
-        }
-        #mainNav.is-fixed .navbar-brand:focus,
-        #mainNav.is-fixed .navbar-brand:hover {
-          color: #0085a1;
-        }
-        #mainNav.is-fixed .navbar-nav > li.nav-item > a {
-          color: #212529;
-        }
-        #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus,
-        #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
-          color: #0085a1;
-        }
-        #mainNav.is-visible {
-          /* if the user changes the scrolling direction, we show the header */
-          transform: translate3d(0, 100%, 0);
-        }
-      }
+      
 
       footer {
         padding-top: 3rem;
@@ -11443,6 +11352,159 @@
       }
       p {
         font-size: large;
+      }
+    </style>
+    <!-- this is the layout -->
+    <style>
+      /* NavBar styling */
+      #mainNav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+        margin-bottom: 100px;
+        border-bottom: 1px solid white;
+        background-color: black;
+        font-family:
+          "Open Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          sans-serif,
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "Noto Color Emoji";
+        color: white;
+      }
+
+      #mainNav .navbar-brand {
+        font-weight: 800;
+        color: white;
+      }
+
+      #mainNav .navbar-toggler {
+        font-size: 0.75rem;
+        font-weight: 800;
+        padding: 0.75rem;
+        text-transform: uppercase;
+        color: white;
+      }
+
+      /* link colors in dropdown */
+      #mainNav .navbar-nav > li.nav-item > a.nav-link {
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.0625em;
+        text-transform: uppercase;
+        color: white;
+      }
+
+      .main-body {
+        margin-top: 3rem !important;
+      }
+
+      @media (min-width: 992px) {
+        #mainNav {
+          border-bottom: 1px solid transparent;
+          background: black;
+          color: white;
+          top: 0px;
+        }
+
+        #mainNav .navbar-brand {
+          color: #fff;
+        }
+
+        #mainNav .navbar-brand:focus,
+        #mainNav .navbar-brand:hover {
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        #mainNav .navbar-nav > li.nav-item > a.nav-link {
+          color: #ffffff;
+        }
+
+        #mainNav .navbar-nav > li.nav-item > a.nav-link:focus,
+        #mainNav .navbar-nav > li.nav-item > a.nav-link:hover {
+          color: rgba(255, 255, 255, 0.8);
+        }
+      }
+
+      @media (min-width: 992px) {
+        #mainNav {
+          transition: background-color 0.2s;
+          /* Force Hardware Acceleration in WebKit */
+          transform: translate3d(0, 0, 0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          color: white;
+        }
+
+        #mainNav.is-fixed {
+          /* when the user scrolls down, we hide the header right above the viewport */
+          position: fixed;
+          top: -88px;
+          transition: transform 0.2s;
+          border-bottom: 5px solid black;
+          background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        #mainNav.is-fixed .navbar-brand {
+          color: #ffffff;
+        }
+
+        #mainNav.is-fixed .navbar-brand:focus,
+        #mainNav.is-fixed .navbar-brand:hover {
+          color: #0085a1;
+        }
+
+        #mainNav.is-fixed .navbar-nav > li.nav-item > a {
+          color: white;
+        }
+
+        #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus,
+        #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
+          color: #0085a1;
+        }
+
+        #mainNav.is-visible {
+          /* if the user changes the scrolling direction, we show the header */
+          transform: translate3d(0, 100%, 0);
+        }
+
+        .main-body {
+          margin-top: 5rem !important;
+        }
+      }
+      #footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        font-size: 14px;
+      }
+
+      #instagram-link {
+        color: #ff69b4;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      #instagram-link:hover {
+        color: #d1357a;
+      }
+
+      footer span {
+        display: block;
+        margin-top: 10px;
+        font-size: 12px;
+        color: #ccc;
       }
     </style>
   </head>
@@ -11817,42 +11879,15 @@
     </script>
 
     <!-- Footer-->
-    <footer class="border-top">
-      <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-          <div class="col-md-10 col-lg-8 col-xl-7">
-            <ul class="list-inline text-center">
-              <li class="list-inline-item">
-                <a href="#!">
-                  <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#!">
-                  <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#!">
-                  <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-            </ul>
-            <div class="small text-center text-muted fst-italic">
-              Copyright &copy; Roots of Resilience 2024
-            </div>
-          </div>
-        </div>
-      </div>
+    <footer id="footer">
+      <a
+        href="https://www.instagram.com/savingplaces"
+        target="_blank"
+        id="instagram-link"
+      >
+        Connect with us on Instagram! @savingplaces
+      </a>
+      <span>&#169; 2024 Roots of Resilience. All Rights Reserved.</span>
     </footer>
   </body>
 </html>

@@ -1,8 +1,7 @@
 {
-    "headers": {
-      "/*.js": {
-        "Content-Type": "application/javascript"
-      }
+  "headers": {
+    "/*.js": {
+      "Content-Type": "application/javascript"
     }
   }
-  
+}

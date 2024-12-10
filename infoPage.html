@@ -30,6 +30,7 @@
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/gallery.css" rel="stylesheet" />
     <link href="css/layout.css" rel="stylesheet" />
+    <link href="css/infoPage.css" rel="stylesheet" />
   </head>
   <body>
     <!-- Navigation-->
@@ -123,7 +124,7 @@
         if (placeId) {
           // Fetch the data from the API
           fetch(
-            "https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/formdata" // @Wendy TODO replace /geojson with /formdata
+            "https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/geojson" // @Wendy TODO replace /geojson with /formdata
           )
             .then((response) => response.json())
             .then((data) => {
@@ -163,13 +164,14 @@
         // Function to display the general info
         function displayGeneralInfo(properties) {
           console.log("properties", properties, properties.churchWebsite);
-          const name = properties.churchName || "Unknown Name";
-          const location = properties.address || "Unknown Location";
-          const founder = properties.founder || "Unknown Founder";
-          const pastor = properties.pastor || "Unknown Pastor";
+          const name = properties.Name || "Unknown Name";
+          const location = properties.Location || "Unknown Location";
+          const founded = properties.Founded || "Unknown Year";
+          const founder = properties.Founder || "Unknown Founder";
+          const pastor = properties.Pastor || "Unknown Pastor";
           const congregation =
-            properties.congregation || "Unknown Congregation";
-          const website = properties.churchWebsite || "No Website";
+            properties.Congregation || "Unknown Congregation";
+          const website = properties.Website || "No website";
 
           document.getElementById("detail-title").textContent = name;
           document.getElementById("detail-location").textContent = location;
@@ -203,20 +205,42 @@
 
           if (type === "activism") {
             contentTitle.textContent = "Activism Moments";
-            moments = properties.activismMoments.split("\n");
-            data = moments.map((moment) => `<p>${moment}</p>`).join("");
+            moments = properties["Activism moments"];
+            data = moments
+              .map(
+                (moment) => `
+        <p><strong>${moment.Information || "N/A"}</strong> (${moment.Date || "N/A"})</p>
+        <p><strong>Learn more:</strong> <a href="${moment.Sources || "#"}" target="_blank">${moment.Sources || "No source available"}</a></p>
+        <hr>
+      `
+              )
+              .join("");
           } else if (type === "network") {
             contentTitle.textContent = "Network";
-            orgs = properties.organizations.split("\n");
-            data = orgs.map((org) => `<p>${org}</p>`).join("");
+            orgs = properties.Network;
+            data = orgs
+              .map(
+                (org) => `
+        <p><strong> ${org.Title || "N/A"}</strong></p>        
+        <p><strong>Established:</strong> ${org.Date || "N/A"}</p>
+        <p>${org.Description || "N/A"}</p>
+        <p><strong>Learn more:</strong> <a href="${org.Sources || "#"}" target="_blank">${org.Sources || "No source available"}</a></p>
+        <hr>
+      `
+              )
+              .join("");
           } else if (type === "stories") {
             contentTitle.textContent = "Community Stories";
-            // data = properties["Personal stories"].map(
-            //   (item) => `<p>Name: ${item.Name || "Anonymous"}</p>
-            //          <p>Story: ${item.Story || "No story available"}</p>`
-            // );
-            stories = properties.personalStories.split("\n");
-            data = stories.map((story) => `<p>${story}</p>`).join("");
+            stories = properties["Personal stories"];
+            data = stories
+              .map(
+                (story) => `
+        <p><strong>Name:</strong> ${story.Name || "Anonymous"}</p>
+        <p><strong>Story:</strong> ${story.Story || "No story available"}</p>
+        <hr>
+      `
+              )
+              .join("");
           }
 
           contentBody.innerHTML = data.length

@@ -110,12 +110,13 @@ body {
 }
 
 #map {
-  height: 80vh;
+  height: 90vh;
   /* don't do the following in body */
   overflow: hidden;
   top: 0;
   bottom: 0;
   width: 100%;
+  padding-bottom: 10px;
 }
 
 hr {

@@ -110,11 +110,9 @@ body {
 }
 
 #map {
-  /* width: 100vw; */
   height: 80vh;
   /* don't do the following in body */
   overflow: hidden;
-  position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;

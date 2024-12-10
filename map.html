@@ -78,24 +78,103 @@
         zoom: 12, // starting zoom (adjust it as you wish)
       });
 
-      // Added part
       map.on("load", () => {
-        // Add a GeoJSON source with data from the API
+        // Initialize an empty hashmap
+        const nameToIdMap = new Map();
+
+        // Fetch GeoJSON data
+        fetch(
+          "https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/geojson"
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const features = data.features || [];
+
+            // Populate the hashmap
+            features.forEach((feature) => {
+              const { properties } = feature;
+              const churchName = properties.Name || "Unknown Church";
+              const churchId = feature._id; // Unique ID for the church
+              if (churchName && churchId) {
+                nameToIdMap.set(churchName, churchId);
+              }
+            });
+
+            // Log the hashmap to ensure it's populated correctly
+            console.log("Name-to-ID Map:", nameToIdMap);
+          })
+          .catch((error) => {
+            console.error("Error fetching GeoJSON data:", error);
+          });
+
+        // Add a GeoJSON source with the data
         map.addSource("mongoLayer", {
           type: "geojson",
           data: "https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/geojson",
         });
 
-        // Add a layer to display MongoDB data
+        // Add a layer to display the features as circles
         map.addLayer({
           id: "mongoLayer",
-          type: "circle", // Options: 'circle', 'line', 'fill'
+          type: "circle",
           source: "mongoLayer",
           paint: {
             "circle-radius": 5,
             "circle-color": "red",
           },
         });
+
+        // Add a click event listener for the map
+        map.on("click", "mongoLayer", (e) => {
+          // Get the church name from the clicked feature
+          const clickedName = e.features[0].properties.Name;
+
+          if (clickedName && nameToIdMap.has(clickedName)) {
+            const churchId = nameToIdMap.get(clickedName);
+            console.log("Navigating to church ID:", churchId);
+            window.location.href = `infoPage.html?id=${churchId}`;
+          } else {
+            alert("No ID found for the clicked church.");
+          }
+        });
+
+        // Change cursor style on hover
+        map.on("mouseenter", "mongoLayer", () => {
+          map.getCanvas().style.cursor = "pointer";
+        });
+
+        map.on("mouseleave", "mongoLayer", () => {
+          map.getCanvas().style.cursor = "";
+        });
+      });
+
+      // Create a pop-up instance for interactivity
+      const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false,
+      });
+
+      // Add interactivity: show pop-up on hover
+      map.on("mouseenter", "mongoLayer", (e) => {
+        map.getCanvas().style.cursor = "pointer"; // Change cursor to pointer
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const properties = e.features[0].properties;
+
+        popup
+          .setLngLat(coordinates)
+          .setHTML(
+            `
+        <h3>${properties.Name || "Unknown Name"}</h3>
+        <p>${properties.Location || "Unknown Location"}</p>
+      `
+          )
+          .addTo(map);
+      });
+
+      // Remove pop-up on mouse leave
+      map.on("mouseleave", "mongoLayer", () => {
+        map.getCanvas().style.cursor = "";
+        popup.remove();
       });
     </script>
 

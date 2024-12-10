@@ -64,4 +64,14 @@ map.on("load", () => {
     // Remove the pop-up
     popup.remove();
   });
+
+  // map.on("click", "mongoLayer", (e) => {
+  //   const properties = e.features[0].properties;
+  //   const churchId = properties._id; // Replace `_id` with the appropriate property from your GeoJSON
+  //   if (churchId) {
+  //     window.location.href = `infoPage.html?id=${churchId}`;
+  //   } else {
+  //     alert("No ID found for this point.");
+  //   }
+  // });
 });

@@ -172,14 +172,14 @@
               const churchIconsContainer =
                 document.getElementById("churchIcons");
               const features = data.features || []; // Extract features from the response
-              console.log("features", features);
+              // console.log("features", features);
 
               // Keep track of existing positions to detect overlaps
               const years = {};
 
               features.forEach((feature) => {
                 const { properties } = feature;
-                console.log("properties", properties);
+                // console.log("properties", properties);
                 const churchName = properties.Name || "Unknown Church";
                 const activismMoments = properties["Activism moments"] || [];
                 const imageUrl =
@@ -189,7 +189,7 @@
 
                 // Loop through activism moments to create timeline icons
                 activismMoments.forEach((moment) => {
-                  console.log("moment", moment);
+                  // console.log("moment", moment);
                   const year = parseInt(moment.Date); // Extract year
                   if (!isNaN(year)) {
                     const description = moment.Information || "No description";
@@ -202,7 +202,7 @@
 
                     // Check if the position is already taken, and adjust vertically
                     let verticalOffset = 0;
-                    console.log("years", years);
+                    // console.log("years", years);
                     if (years[year] || years[year + 1] || years[year - 1]) {
                       offset = Math.max(
                         years[year] || 0,

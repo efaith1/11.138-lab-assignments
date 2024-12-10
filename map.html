@@ -13,9 +13,18 @@
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/gallery.css" rel="stylesheet" />
     <link href="css/layout.css" rel="stylesheet" />
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
       rel="stylesheet"
     />
   </head>
@@ -78,6 +87,33 @@
         zoom: 12, // starting zoom (adjust it as you wish)
       });
 
+      // Add zoom and rotation controls to the map
+      map.addControl(new mapboxgl.NavigationControl());
+
+      // // Add Geocoder (Search Bar)
+      const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: map, // Pass the mapbox-gl instance to the geocoder
+        placeholder: "Search an address", // Add placeholder text
+        marker: false, // Disable default marker (we will add our own marker below)
+      });
+
+      // // Add the geocoder to the map
+      map.addControl(geocoder, "bottom-left");
+
+      document.querySelector(".mapboxgl-ctrl-geocoder").style.width = "100%";
+
+      // Add a marker to the map for the searched location
+      const marker = new mapboxgl.Marker(); // Create a marker, but don't add it yet
+
+      geocoder.on("result", (event) => {
+        // Set the marker at the result location
+        const [lng, lat] = event.result.center;
+        marker.setLngLat([lng, lat]).addTo(map);
+        // Optionally center the map on the searched location
+        map.flyTo({ center: [lng, lat], zoom: 20 });
+      });
+
       map.on("load", () => {
         // Initialize an empty hashmap
         const nameToIdMap = new Map();
@@ -101,7 +137,7 @@
             });
 
             // Log the hashmap to ensure it's populated correctly
-            console.log("Name-to-ID Map:", nameToIdMap);
+            // console.log("Name-to-ID Map:", nameToIdMap);
           })
           .catch((error) => {
             console.error("Error fetching GeoJSON data:", error);
@@ -131,7 +167,7 @@
 
           if (clickedName && nameToIdMap.has(clickedName)) {
             const churchId = nameToIdMap.get(clickedName);
-            console.log("Navigating to church ID:", churchId);
+            // console.log("Navigating to church ID:", churchId);
             window.location.href = `infoPage.html?id=${churchId}`;
           } else {
             alert("No ID found for the clicked church.");
@@ -210,7 +246,7 @@
               </li>
             </ul>
             <div class="small text-center text-muted fst-italic">
-              Copyright &copy; Your Website 2023
+              Copyright Roots of Resilience, 2024
             </div>
           </div>
         </div>

@@ -12,6 +12,16 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
       rel="stylesheet"
     />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!-- Navigation-->
@@ -367,6 +377,30 @@
 
       // Add map controls
       map.addControl(new mapboxgl.NavigationControl());
+
+      // // Add Geocoder (Search Bar)
+      const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: map, // Pass the mapbox-gl instance to the geocoder
+        placeholder: "Search an address", // Add placeholder text
+        marker: false, // Disable default marker (we will add our own marker below)
+      });
+
+      // // Add the geocoder to the map
+      map.addControl(geocoder, "bottom-left");
+
+      document.querySelector(".mapboxgl-ctrl-geocoder").style.width = "100%";
+
+      // Add a marker to the map for the searched location
+      const searchMarker = new mapboxgl.Marker(); // Create a searchMarker, but don't add it yet
+
+      geocoder.on("result", (event) => {
+        // Set the searchMarker at the result location
+        const [lng, lat] = event.result.center;
+        searchMarker.setLngLat([lng, lat]).addTo(map);
+        // Optionally center the map on the searched location
+        map.flyTo({ center: [lng, lat], zoom: 20 });
+      });
 
       // Marker for selected location
       let marker;

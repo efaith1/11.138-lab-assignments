@@ -1,0 +1,105 @@
+
+.timeline-container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 4rem;
+    font-family: "Open Sans", sans-serif;
+    padding: 20px 0 0 0;
+}
+
+h1 {
+    padding: 20px 0 0 0;
+}
+
+p {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 0 5px;
+    line-height: 2;
+    margin: 16px;
+}
+
+.description-p-bold {
+    font-weight: bold;
+}
+
+.timeline-base {
+    position: relative;
+    height: 2px;
+    background: black;
+    margin: 200px 0;
+    
+}
+
+.major-event {
+    position: absolute;
+    top: -180px;
+}
+
+.major-event::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 280px;
+    background: #000;
+    bottom: -300px;
+    overflow: hidden;
+}
+
+.major-event-text {
+    width: 138px;
+    text-align: center;
+    font-size: 12px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+    transform: translateX(-50%);
+}
+
+.event-2008 { color: #2E8B57; }
+.event-2012 { color: #CD5C5C; }
+.event-2015 { color: #DAA520; }
+.event-2020 { color: #000000; }
+
+.church-icon {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.church-icon:hover {
+    transform: translateY(-50%) scale(1.2);
+}
+
+.tooltip {
+    position: absolute;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-size: 14px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    width: 200px;
+    z-index: 1000;
+    pointer-events: none;
+    font-family: "Open Sans", sans-serif;
+}
+
+.church-icon:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}

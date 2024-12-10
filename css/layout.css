@@ -113,3 +113,26 @@
         margin-top: 5rem !important;
     }
 }
+
+#footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+  }
+  #instagram-link {
+    color: #ff69b4;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  #instagram-link:hover {
+    color: #d1357a;
+  }
+  footer span {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #ccc;
+  }

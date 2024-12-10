@@ -29,6 +29,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/layout.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
   </head>
   <body>
     <!-- Navigation-->
@@ -123,9 +124,128 @@
         </div>
 
         <!-- Divider-->
-        <!-- <hr class="my-4" /> -->
+        <hr class="my-4" />
         <!-- TODO add the timeline? -->
-         
+        <div class="timeline-container">
+          <h1 class="title">Black Religious Institutions Activism 2000-2020</h1>
+
+          <div class="timeline-base">
+            <!-- Major Events -->
+            <div class="major-event" style="left: 32%">
+              <div class="major-event-text event-2008">
+                2008 Election of Barack Obama
+              </div>
+            </div>
+            <div class="major-event" style="left: 48%">
+              <div class="major-event-text event-2012">
+                2012 Trayvon Martin killed in Florida
+              </div>
+            </div>
+            <div class="major-event" style="left: 64%">
+              <div class="major-event-text event-2015">
+                2015 Charleston Church Shooting
+              </div>
+            </div>
+            <div class="major-event" style="left: 80%">
+              <div class="major-event-text event-2020">
+                2020 George Floyd killed in Minnesota
+              </div>
+            </div>
+
+            <!-- Church Icons -->
+            <div id="churchIcons"></div>
+          </div>
+        </div>
+
+        <script>
+          // Fetch data from the API
+          fetch(
+            "https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/geojson"
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              const churchIconsContainer =
+                document.getElementById("churchIcons");
+              const features = data.features || []; // Extract features from the response
+              console.log("features", features);
+
+              // Keep track of existing positions to detect overlaps
+              const years = {};
+
+              features.forEach((feature) => {
+                const { properties } = feature;
+                console.log("properties", properties);
+                const churchName = properties.Name || "Unknown Church";
+                const activismMoments = properties["Activism moments"] || [];
+                const imageUrl =
+                  properties.churchPhoto || "https://via.placeholder.com/200x150?text=No+Image";
+                const churchId = feature._id; // Extract the church's unique ID
+
+                // Loop through activism moments to create timeline icons
+                activismMoments.forEach((moment) => {
+                  console.log("moment", moment);
+                  const year = parseInt(moment.Date); // Extract year
+                  if (!isNaN(year)) {
+                    const description = moment.Information || "No description";
+
+                    // Calculate the position on the timeline based on the year
+                    const yearStart = 2000;
+                    const yearEnd = 2025;
+                    const position =
+                      ((year - yearStart) / (yearEnd - yearStart)) * 100;
+
+                    // Check if the position is already taken, and adjust vertically
+                    let verticalOffset = 0;
+                    console.log("years", years);
+                    if (years[year] || years[year + 1] || years[year - 1]) {
+                      offset = Math.max(
+                        years[year] || 0,
+                        years[year + 1] || 0,
+                        years[year - 1] || 0
+                      );
+                      verticalOffset =
+                        offset * 50 * (offset % 2 === 0 ? (1/2) : -1);
+                      years[year]++;
+                    } else {
+                      years[year] = 1;
+                      verticalOffset = 0;
+                    }
+
+                    // Create the clickable link
+                    const link = document.createElement("a");
+                    link.href = `infoPage.html?id=${churchId}`;
+                    link.className = "gallery-link";
+
+                    // Create icon and tooltip
+                    const icon = document.createElement("div");
+                    icon.className = "church-icon";
+                    icon.style.left = `${position}%`;
+                    icon.style.top = `${verticalOffset}px`; // Adjust vertical position
+                    icon.style.backgroundImage = `url(${imageUrl})`;
+                    icon.style.zIndex = 1;
+
+                    const tooltip = document.createElement("div");
+                    tooltip.className = "tooltip";
+                    tooltip.innerHTML = `
+                              <strong>${churchName}</strong><br>
+                              ${description} (${year})
+                          `;
+                    tooltip.style.bottom = "120%";
+                    tooltip.style.left = "50%";
+                    tooltip.style.transform = "translateX(-50%)";
+                    tooltip.style.zIndex = 100;
+
+                    icon.appendChild(tooltip);
+                    link.appendChild(icon); // Wrap the icon with the link
+                    churchIconsContainer.appendChild(link);
+                  }
+                });
+              });
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error);
+            });
+        </script>
       </div>
     </main>
     <!-- Footer-->

@@ -86,7 +86,7 @@
     </header> -->
     <!-- Main Content-->
     <main class="main-body">
-      <h1 style="text-align: center; padding: 20px">Places Gallery</h1>
+      <h1 style="text-align: center; padding: 20px">Churches</h1>
       <div class="gallery-container" id="gallery-container">
         <!-- Gallery items will be injected here -->
       </div>
@@ -94,24 +94,23 @@
       <script>
         // Fetch the data from the API
         fetch(
-          "https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/formdata" //TODO changed to geojson?
+          "https://roots-of-resilience-f93bdedc188d.herokuapp.com/api/geojson"
         )
           .then((response) => response.json())
           .then((data) => {
             const galleryContainer =
               document.getElementById("gallery-container");
             const features = data.features || []; // get features from GeoJSON
-            console.log("features", features);
+            console.log(features);
             // go through features and create HTML for each item
             features.forEach((feature) => {
-              // properties = feature;
               const { properties } = feature;
-              console.log(properties);
-              const name = properties.churchName || "Unknown Name";
+              console.log(feature);
+              const name = properties.Name || "Unknown Name";
               const imageUrl =
                 properties.churchPhoto ||
                 "https://via.placeholder.com/200x150?text=No+Image";
-              const location = properties.address || "Unknown Location";
+              const location = properties.Location || "Unknown Location";
 
               console.log(feature._id);
               // Create gallery item
